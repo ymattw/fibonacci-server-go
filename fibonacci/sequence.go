@@ -9,11 +9,11 @@ import (
 var results = []*big.Int{big.NewInt(0), big.NewInt(1)}
 
 func Sequence(n int) []*big.Int {
-	length := len(results)
+	var length = len(results)
 
 	if n > 2 {
 		for i := length; i < n; i++ {
-			r := big.NewInt(0)
+			var r = big.NewInt(0)
 			r.Add(results[i-1], results[i-2])
 			results = append(results, r)
 		}
