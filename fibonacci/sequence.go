@@ -2,14 +2,20 @@
 
 package fibonacci
 
-var results = []int{0, 1}
+import (
+	"math/big"
+)
 
-func Sequence(n int) []int {
-	var length = len(results)
+var results = []*big.Int{big.NewInt(0), big.NewInt(1)}
+
+func Sequence(n int) []*big.Int {
+	length := len(results)
 
 	if n > 2 {
 		for i := length; i < n; i++ {
-			results = append(results, results[i-1]+results[i-2])
+			r := big.NewInt(0)
+			r.Add(results[i-1], results[i-2])
+			results = append(results, r)
 		}
 	}
 
