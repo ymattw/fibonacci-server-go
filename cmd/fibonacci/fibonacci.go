@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"golang.org/x/crypto/ssh/terminal"
 	"os"
 	"path"
 	"strconv"
@@ -21,5 +22,15 @@ func main() {
 		os.Exit(2)
 	}
 
-	fmt.Println(fibonacci.Sequence(n))
+	var out = fibonacci.Sequence(n)
+
+	// Printing out the result is slow when number is large, so when
+	// stdout is a tty we just print out the last element (TODO: do
+	// profiling instead)
+	//
+	if terminal.IsTerminal(1) {
+		fmt.Println(out)
+	} else {
+		fmt.Println(out[len(out)-1])
+	}
 }
