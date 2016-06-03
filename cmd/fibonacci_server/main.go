@@ -13,6 +13,10 @@ import (
 
 const MaxAcceptableNumber = 10000
 
+func respondStatus(w http.ResponseWriter, code int) {
+	http.Error(w, http.StatusText(code), code)
+}
+
 func index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	fmt.Fprintf(w, "Welcome to Fibonacci Server!\n\n"+
 		"Currently only one API is supported:\n\n"+
@@ -26,16 +30,16 @@ func fibonacci(w http.ResponseWriter, r *http.Request, params httprouter.Params)
 	log.Println("[*]", version, number)
 
 	if version != "v1" {
-		http.Error(w, http.StatusText(http.StatusNotImplemented), http.StatusNotImplemented)
+		respondStatus(w, http.StatusNotImplemented)
 		return
 	}
 
 	var n, err = strconv.Atoi(number)
 	if err != nil || n < 0 {
-		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		respondStatus(w, http.StatusBadRequest)
 		return
 	} else if n > MaxAcceptableNumber {
-		http.Error(w, http.StatusText(http.StatusRequestEntityTooLarge), http.StatusRequestEntityTooLarge)
+		respondStatus(w, http.StatusRequestEntityTooLarge)
 		return
 	}
 
