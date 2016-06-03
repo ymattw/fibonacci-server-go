@@ -1,8 +1,8 @@
-.PHONY: install test run
+.PHONY: install test run prepare
 
 export GOPATH := $(shell while [ ! -d src/github.com ]; do cd ..; done && pwd)
 
-install:
+install: prepare
 	go install ./cmd/fibonacci
 	go install ./cmd/fibonacci_server
 	@echo Installed to $(GOPATH)/bin
@@ -13,3 +13,9 @@ test: install
 
 run: install
 	$(GOPATH)/bin/fibonacci_server
+
+prepare:
+	@echo GOPATH=$(GOPATH)
+	[ -d $(GOPATH)/src/github.com/julienschmidt/httprouter ] || \
+		go get github.com/julienschmidt/httprouter
+
