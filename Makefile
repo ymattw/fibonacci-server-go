@@ -1,21 +1,23 @@
 .PHONY: install test run prepare
 
-export GOPATH := $(shell while [ ! -d src/github.com ]; do cd ..; done && pwd)
+VENDOR := $(CURDIR)/_vendor
+
+export GOPATH := $(VENDOR):$(PWD)
 
 install: prepare
-	go install ./cmd/fibonacci
-	go install ./cmd/fibonacci_server
-	@echo Installed to $(GOPATH)/bin
+	go install ./src/cmd/fibonacci
+	go install ./src/cmd/fibonacci_server
 
 test: install
-	go test ./fibonacci
-	$(GOPATH)/bin/fibonacci 10
+	go test ./src/fibonacci
+	bin/fibonacci 10
 
 run: install
-	$(GOPATH)/bin/fibonacci_server
+	bin/fibonacci_server
 
 prepare:
 	@echo GOPATH=$(GOPATH)
-	[ -d $(GOPATH)/src/github.com/julienschmidt/httprouter ] || \
-		go get github.com/julienschmidt/httprouter
+	go get github.com/julienschmidt/httprouter
+	# Blocked by GFW!
+	go get golang.org/x/crypto/ssh/terminal
 
