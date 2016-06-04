@@ -18,6 +18,7 @@ run: install
 prepare:
 	@echo GOPATH=$(GOPATH)
 	go get github.com/julienschmidt/httprouter
-	# Blocked by GFW!
-	go get golang.org/x/crypto/ssh/terminal
-
+	# golang.org/x/crypto/ssh/terminal blocked by GFW!
+	[ -d $(VENDOR)/src/golang.org/x/crypto/.git ] || \
+		git clone --depth 1 https://github.com/golang/crypto.git \
+			$(VENDOR)/src/golang.org/x/crypto
