@@ -7,8 +7,8 @@ import (
 	"strconv"
 	"strings"
 
+	. "fibonacci"
 	"github.com/julienschmidt/httprouter"
-	. "github.com/ymattw/fibonacci-server-go/fibonacci"
 )
 
 const MaxAcceptableNumber = 10000

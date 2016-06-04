@@ -7,7 +7,7 @@ import (
 	"path"
 	"strconv"
 
-	"github.com/ymattw/fibonacci-server-go/fibonacci"
+	"fibonacci"
 )
 
 func main() {
