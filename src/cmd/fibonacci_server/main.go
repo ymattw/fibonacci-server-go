@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"net/http"
@@ -54,12 +55,19 @@ func fibonacci(w http.ResponseWriter, r *http.Request, params httprouter.Params)
 }
 
 func main() {
-	var port = 9090
+	var address string
+	var port int
 	var router = httprouter.New()
+
+	flag.StringVar(&address, "b", "0.0.0.0", "bind address, default is 0.0.0.0")
+	flag.StringVar(&address, "bind", "0.0.0.0", "bind address, default is *")
+	flag.IntVar(&port, "p", 9090, "listen port, default is 9090")
+	flag.IntVar(&port, "port", 9090, "listen por, default is 9090")
+	flag.Parse()
 
 	router.GET("/", index)
 	router.GET("/:version/fib/:number", fibonacci)
 
-	log.Println("Will serving on port", port)
-	log.Fatal(http.ListenAndServe(":"+strconv.Itoa(port), router))
+	log.Printf("Will serving on %s:%d\n", address, port)
+	log.Fatal(http.ListenAndServe(address+":"+strconv.Itoa(port), router))
 }
