@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"net/http"
@@ -54,8 +55,12 @@ func fibonacci(w http.ResponseWriter, r *http.Request, params httprouter.Params)
 }
 
 func main() {
-	var port = 9090
+	var port int
 	var router = httprouter.New()
+
+	flag.IntVar(&port, "p", 9090, "listen port")
+	flag.IntVar(&port, "port", 9090, "listen port")
+	flag.Parse()
 
 	router.GET("/", index)
 	router.GET("/:version/fib/:number", fibonacci)
