@@ -1,6 +1,6 @@
 .PHONY: install test run prepare
 
-VENDOR := $(CURDIR)/_vendor
+VENDOR := $(CURDIR)/vendor
 
 export GOPATH := $(VENDOR):$(PWD)
 
